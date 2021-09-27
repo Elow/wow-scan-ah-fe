@@ -2,10 +2,6 @@ import { AuctionItem } from 'src/app/models/auction-item.model';
 
 export const AUCTIONS: AuctionItem[] = [
   {
-    id: 23424,
-    name: 'Minerai de gangrefer',
-  },
-  {
     id: 22785,
     name: 'Gangrelette',
   },
@@ -18,16 +14,12 @@ export const AUCTIONS: AuctionItem[] = [
     name: 'Gangrelys',
   },
   {
+    id: 23424,
+    name: 'Minerai de gangrefer',
+  },
+  {
     id: 23445,
     name: 'Barre de gangrefer',
-  },
-  {
-    id: 23484,
-    name: 'Ceinture en plaques de gangrefer',
-  },
-  {
-    id: 23487,
-    name: 'Bottes en plaques de gangrefer',
   },
   {
     id: 23489,
@@ -40,6 +32,10 @@ export const AUCTIONS: AuctionItem[] = [
   {
     id: 23491,
     name: 'Gants en anneaux de gangrefer',
+  },
+  {
+    id: 23493,
+    name: 'Camail en anneaux de gangrefer',
   },
   {
     id: 23494,

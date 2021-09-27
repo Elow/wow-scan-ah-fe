@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'wow-scan-ah'`, () => {
+  it(`should have as title 'WoW Scan AH'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('wow-scan-ah');
+    expect(app.title).toEqual('WoW Scan AH');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('wow-scan-ah app is running!');
+    expect(compiled.querySelector('.text-decoration-none.text-white')?.textContent).toContain('WoW Scan AH');
   });
 });

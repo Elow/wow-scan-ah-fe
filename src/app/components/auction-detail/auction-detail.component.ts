@@ -58,7 +58,7 @@ export class AuctionDetailComponent implements OnInit {
           const p25 = this.getPercentile(d.y, 25);
           const p95 = this.getPercentile(d.y, 95);
           const p5 = this.getPercentile(d.y, 5);
-          this.googleDatas.push([new Date(d.x), p25, p5, p75, p95]);
+          this.googleDatas.push([new Date(d.x), p25, min, p75, p95]);
         });
         console.log(this.googleDatas);
 
