@@ -54,4 +54,4 @@ jobs:
           app-name: 'wow-scan-ah'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6FF2D79EE9884A949B0885D59F28F77D }}
-          package: ./dist/wow-scan-ah
+          package: .
