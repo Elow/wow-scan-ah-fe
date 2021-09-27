@@ -1,33 +1,34 @@
-import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import { AuctionService } from 'src/app/services/auction.service';
+import { AuctionItem } from 'src/app/models/auction-item.model';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 },
-        ];
-      }
+export class DashboardComponent implements OnInit {
+  auctions$!: Observable<AuctionItem[]>;
+  private searchTerms = new Subject<string>();
 
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 },
-      ];
-    })
-  );
+  constructor(private auctionService: AuctionService) {}
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  ngOnInit(): void {
+    this.auctions$ = this.searchTerms.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => this.auctionService.searchAuctionsItems(term))
+    );
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
 }

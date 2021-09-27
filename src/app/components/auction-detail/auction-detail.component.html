@@ -1,0 +1,21 @@
+<div class="container-fluid pt-3 h-100" *ngIf="isInitialized">
+  <div class="row h-100">
+    <div class="col-12">
+      <h1><img matListAvatar src="{{ auctionToDisplay.gameMedia }}" alt="WoW Icon" /> {{ auctionToDisplay.name }}</h1>
+      <div class="row h-100">
+        <div class="col-12">
+          <google-chart
+            *ngIf="isInitialized"
+            class="w-100 h-50"
+            [title]="chart.title"
+            [type]="chart.type"
+            [data]="chart.data"
+            [columns]="chart.columns"
+            [dynamicResize]="true"
+          >
+          </google-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
