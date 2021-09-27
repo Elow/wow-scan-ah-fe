@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: ./dist
+          path: ./dist/wow-scan-ah
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,4 +54,4 @@ jobs:
           app-name: 'wow-scan-ah'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6FF2D79EE9884A949B0885D59F28F77D }}
-          package: .
+          package: ./dist/wow-scan-ah
