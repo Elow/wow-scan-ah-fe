@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Logger } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 // Some cat facts, courtesy of https://catfact.ninja
 const funFacts = [
@@ -18,8 +19,21 @@ const funFacts = [
 
 @Controller('stories')
 export class StoriesController {
+  private readonly logger = new Logger(StoriesController.name);
+  private inc = 0;
+
   @Get('random')
   getRandomStory(): string {
-    return funFacts[Math.floor(Math.random() * funFacts.length)];
+    return (
+      funFacts[Math.floor(Math.random() * funFacts.length)] +
+      '/' +
+      this.inc.toString()
+    );
+  }
+
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  handleCron() {
+    this.logger.debug('Called every 30 seconds');
+    ++this.inc;
   }
 }
