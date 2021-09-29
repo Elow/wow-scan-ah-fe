@@ -1,39 +1,29 @@
-import { Controller, Get, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
-
-// Some cat facts, courtesy of https://catfact.ninja
-const funFacts = [
-  'Cats have supersonic hearing',
-  'On average, cats spend 2/3 of every day sleeping. That means a nine-year-old cat has been awake for only three years of its life.',
-  'A cat uses its whiskers for measuring distances. The whiskers of a cat are capable of registering very small changes in air pressure.',
-  'A healthy cat has a temperature between 38 and 39 degrees Celcius.',
-  'A cat’s jaw can’t move sideways, so a cat can’t chew large chunks of food.',
-  "Jaguars are the only big cats that don't roar.",
-  "Cats have 'nine lives' thanks to a flexible spine and powerful leg and back muscles",
-  "The cat's tail is used to maintain balance.",
-  "The technical term for a cat’s hairball is a 'bezoar.'",
-  'The first cat show was organized in 1871 in London. Cat shows later became a worldwide craze.',
-  'A happy cat holds her tail high and steady.',
-  'A cat can jump 5 times as high as it is tall.',
-];
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { CreateStoryDto } from './dto/create-story.dto';
+import { Story } from './story.entity';
+import { StoriesService } from './stories.service';
 
 @Controller('stories')
 export class StoriesController {
-  private readonly logger = new Logger(StoriesController.name);
-  private inc = 0;
+  constructor(private readonly storiesService: StoriesService) {}
 
-  @Get('random')
-  getRandomStory(): string {
-    return (
-      funFacts[Math.floor(Math.random() * funFacts.length)] +
-      '/' +
-      this.inc.toString()
-    );
+  @Post()
+  create(@Body() createUserDto: CreateStoryDto): Promise<Story> {
+    return this.storiesService.create(createUserDto);
   }
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
-  handleCron() {
-    this.logger.debug('Called every 30 seconds');
-    ++this.inc;
+  @Get()
+  findAll(): Promise<Story[]> {
+    return this.storiesService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<Story> {
+    return this.storiesService.findOne(id);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<void> {
+    return this.storiesService.remove(id);
   }
 }
