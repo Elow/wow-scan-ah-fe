@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "format": "npx prettier --write .",
     "lint": "ng lint",
-    "ci:clean": "rimraf ./dist"
+    "ci:clean": "rimraf ./dist",
+    "start:local": "ng serve --proxy-config proxy.local.js"
   },
   "private": true,
   "engines": {
