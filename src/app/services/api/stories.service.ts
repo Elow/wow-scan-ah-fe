@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Story } from 'src/app/models/stories/story.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoriesService {
-  private API_URL = '/api';
+  private API_URL = '/api/stories';
 
   constructor(private http: HttpClient) {}
 
-  getRandomStory() {
-    return this.http.get(this.API_URL + '/stories/random', { responseType: 'text' });
+  getStories(): Observable<Story[]> {
+    return this.http.get<Story[]>(this.API_URL);
   }
 }

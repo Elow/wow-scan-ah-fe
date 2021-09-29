@@ -1,9 +1,10 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuctionService } from 'src/app/services/auction.service';
 import { AuctionItem } from 'src/app/models/auction-item.model';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { StoriesService } from 'src/app/services/api/stories.service';
+import { Story } from 'src/app/models/stories/story.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,7 @@ import { StoriesService } from 'src/app/services/api/stories.service';
 })
 export class DashboardComponent implements OnInit {
   auctions$!: Observable<AuctionItem[]>;
-  story$: Observable<string> = this.storieService.getRandomStory();
+  story$: Observable<Story[]> = this.storieService.getStories();
   private searchTerms = new Subject<string>();
 
   constructor(private auctionService: AuctionService, private storieService: StoriesService) {}

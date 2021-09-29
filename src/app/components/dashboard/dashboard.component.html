@@ -15,7 +15,7 @@
           </h3>
         </mat-list-item>
       </mat-list>
-      <p>{{ story$ | async }}</p>
+      <p *ngFor="let story of story$ | async">{{ story.animal }}</p>
     </div>
   </div>
 </div>
