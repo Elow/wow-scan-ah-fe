@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1>My favorites items</h1>
+      <mat-list>
+        <mat-list-item *ngFor="let favorite of favorites$ | async"
+          >{{ favorite.name }}
+          <mat-icon matListIcon (click)="deleteFavorite(favorite)">delete</mat-icon>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</div>

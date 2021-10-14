@@ -4,6 +4,7 @@ import { Auction } from 'src/app/models/auction.model';
 import { AuctionService } from 'src/app/services/auction.service';
 import { first } from 'rxjs/operators';
 import { ChartType } from 'angular-google-charts';
+import { LocalStorageRefService } from 'src/app/services/local-storage-ref.service';
 
 @Component({
   selector: 'app-auction-detail',
@@ -11,7 +12,9 @@ import { ChartType } from 'angular-google-charts';
   styleUrls: ['./auction-detail.component.scss'],
 })
 export class AuctionDetailComponent implements OnInit {
+  itemId: number;
   auctionToDisplay!: Auction;
+  isFavorite: boolean = false;
   datas: any[] = [];
   googleDatas: any[] = [];
   isInitialized = false;
@@ -22,15 +25,20 @@ export class AuctionDetailComponent implements OnInit {
     columns: ['time', 'min', 'boxmin', 'boxmax', 'max'],
   };
 
-  constructor(private route: ActivatedRoute, private auctionService: AuctionService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private auctionService: AuctionService,
+    private _localStorageRefService: LocalStorageRefService
+  ) {
+    this.itemId = Number(this.route.snapshot.paramMap.get('id'));
+  }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.isFavorite = this._localStorageRefService.isItemFavorite(this.itemId);
     this.auctionService
-      .getAuction(id)
+      .getAuction(this.itemId)
       .pipe(first())
       .subscribe((auction) => {
-        console.log(auction);
         this.auctionToDisplay = auction[0];
         // this.blizzardService.getItemMedia(this.auctionToDisplay.gameId).subscribe((media) => {
         //   this.auctionToDisplay.gameMedia = media.assets[0].value;
@@ -50,7 +58,6 @@ export class AuctionDetailComponent implements OnInit {
           tempData.y = [];
           tempData.x = new Date();
         });
-        console.log(this.datas);
         this.datas.forEach((d: { x: Date; y: [] }) => {
           const max = Math.max(...d.y);
           const min = Math.min(...d.y);
@@ -60,10 +67,18 @@ export class AuctionDetailComponent implements OnInit {
           const p5 = this.getPercentile(d.y, 5);
           this.googleDatas.push([new Date(d.x), p25, min, p75, p95]);
         });
-        console.log(this.googleDatas);
 
         this.isInitialized = true;
       });
+  }
+
+  toggleFavorite(): void {
+    if (this.isFavorite) {
+      this._localStorageRefService.removeFavorite({ id: this.itemId, name: this.auctionToDisplay.name });
+    } else {
+      this._localStorageRefService.saveFavorite({ id: this.auctionToDisplay.gameId, name: this.auctionToDisplay.name });
+    }
+    this.isFavorite = !this.isFavorite;
   }
 
   private getPercentile(datas: any[], percentile: number): number {

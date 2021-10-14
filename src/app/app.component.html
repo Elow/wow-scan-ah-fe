@@ -1,9 +1,17 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button aria-label="Main menu">
-    <mat-icon>menu</mat-icon>
+  <button mat-icon-button aria-label="Go home" routerLink="/">
+    <mat-icon>home</mat-icon>
   </button>
   <span
     ><a routerLink="/" class="text-decoration-none text-white">{{ title }}</a></span
   >
+  <span class="spacer"></span>
+  <button mat-icon-button aria-label="Main menu" [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/dashboard">Dashboard</button>
+    <button mat-menu-item routerLink="/favorites">Favorites</button>
+  </mat-menu>
 </mat-toolbar>
 <router-outlet></router-outlet>
