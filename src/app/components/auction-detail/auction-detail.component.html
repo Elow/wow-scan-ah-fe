@@ -1,7 +1,14 @@
 <div class="container-fluid pt-3 h-100" *ngIf="isInitialized">
   <div class="row h-100">
     <div class="col-12">
-      <h1><img matListAvatar src="{{ auctionToDisplay.gameMedia }}" alt="WoW Icon" /> {{ auctionToDisplay.name }}</h1>
+      <h1 class="d-flex align-items-center">
+        <img matListAvatar src="{{ auctionToDisplay.gameMedia || 'https://via.placeholder.com/40' }}" class="mr-1" />
+        {{ auctionToDisplay.name }}
+        <span class="spacer"></span>
+        <button mat-icon-button [class.is-favorite]="isFavorite" aria-label="Favorite" (click)="toggleFavorite()">
+          <mat-icon>favorite</mat-icon>
+        </button>
+      </h1>
       <div class="row h-100">
         <div class="col-12">
           <google-chart

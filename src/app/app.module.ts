@@ -12,9 +12,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuctionDetailComponent } from './components/auction-detail/auction-detail.component';
 import { FilterNamePipe } from './pipes/filter-name.pipe';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { FavoriteComponent } from './components/favorite/favorite.component';
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, AuctionDetailComponent, FilterNamePipe],
+  declarations: [AppComponent, DashboardComponent, AuctionDetailComponent, FilterNamePipe, FavoriteComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
